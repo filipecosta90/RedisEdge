@@ -1,4 +1,4 @@
-# BUILD redis edge nano
+# BUILD RedisAI edge nano
 # use NVIDIA Jetson embedded computing platform.
 FROM nvcr.io/nvidia/l4t-base:r32.4.3
 ENV DEBIAN_FRONTEND=noninteractive
@@ -31,6 +31,8 @@ RUN mv torch libtorch
 
 # redisai.so + redisai_tensorflow.so + redisai_torch.so
 WORKDIR /RedisAI/build
-RUN cmake -DDEVICE=gpu -DBUILD_TF=ON -DBUILD_TFLITE=OFF -DBUILD_TORCH=ON -DBUILD_ORT=OFF -DCMAKE_BUILD_TYPE=Release ../
+ENV PATH="/usr/local/cuda/bin:${PATH}"
+ENV LD_LIBRARY_PATH="/usr/local/cuda/lib64:${LD_LIBRARY_PATH}"
+RUN cmake -DCUDA_TOOLKIT_ROOT_DIR="/usr/local/cuda" -DDEVICE=gpu -DBUILD_TF=ON -DBUILD_TFLITE=OFF -DBUILD_TORCH=ON -DBUILD_ORT=OFF -DCMAKE_BUILD_TYPE=Release ../
 RUN make
 RUN ls
