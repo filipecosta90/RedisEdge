@@ -28,7 +28,7 @@ RUN wget --quiet --show-progress --progress=bar:force:noscroll --no-check-certif
 RUN tar xf libtensorflow.tar.gz
 
 # libtorch 1.6 deps
-WORKDIR /RedisAI/deps/linux-x64-gpu
+WORKDIR /RedisAI/deps/linux-x64-cpu
 RUN wget --quiet --show-progress --progress=bar:force:noscroll --no-check-certificate ${PYTORCH_URL} -O ${PYTORCH_WHL}
 RUN unzip ${PYTORCH_WHL}
 RUN mv torch libtorch
