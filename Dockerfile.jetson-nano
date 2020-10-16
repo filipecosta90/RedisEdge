@@ -24,6 +24,6 @@ WORKDIR /RedisAI/deps/linux-arm64v8-gpu/libtensorflow
 RUN wget --quiet --show-progress --progress=bar:force:noscroll --no-check-certificate ${LIBTENSORFLOW_URL}
 RUN tar xf libtensorflow.tar.gz
 
-WORKDIR /RedisAI/build
+WORKDIR /RedisAI
 # redisai.so + redisai_tensorflow.so
 RUN WITH_PT=0 WITH_TF=1 WITH_TFLITE=0 WITH_ORT=0 GPU=1 make -C opt build
