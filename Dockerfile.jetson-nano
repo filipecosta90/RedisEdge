@@ -27,3 +27,6 @@ RUN tar xf libtensorflow.tar.gz
 WORKDIR /RedisAI
 # redisai.so + redisai_tensorflow.so
 RUN WITH_PT=0 WITH_TF=1 WITH_TFLITE=0 WITH_ORT=0 GPU=1 make -C opt build
+
+# check /RedisAI/bin/linux-arm64v8-release/install-gpu/redisai.so
+# check /RedisAI/bin/linux-arm64v8-release/install-gpu/backends/redisai_tensorflow/redisai_tensorflow.so
