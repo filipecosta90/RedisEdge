@@ -1,6 +1,6 @@
 # BUILD RedisAI edge nano
 # use NVIDIA Jetson embedded computing platform.
-FROM l4t-pytorch:r32.4.2-pth1.5-py3
+FROM nvcr.io/nvidia/l4t-base:r32.4.3
 ARG MAKEFLAGS=-j8
 ARG REDISAI_VERSION=v1.0.2
 ARG LIBTENSORFLOW_URL=https://s3.amazonaws.com/benchmarks.redislabs/artifacts/redisai/jetson-nano/libtensorflow.tar.gz
