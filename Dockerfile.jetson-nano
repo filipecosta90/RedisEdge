@@ -39,4 +39,4 @@ ENV LD_LIBRARY_PATH="/usr/local/cuda/lib64:${LD_LIBRARY_PATH}"
 RUN echo "PATH: $PATH\n" && echo "LD_LIBRARY_PATH: $LD_LIBRARY_PATH\n" && echo "CUDA_HOME: $CUDA_HOME\n"
 
 RUN pwd && WITH_PT=1 WITH_TF=1 WITH_TFLITE=0 WITH_ORT=0 GPU=1 CUDA=1 make -C opt clean 
-RUN pwd && WITH_PT=1 WITH_TF=1 WITH_TFLITE=0 WITH_ORT=0 GPU=1 CUDA=1 make -C opt build 
+RUN ln -s /usr/local/cuda-10.2 /usr/local/cuda && WITH_PT=1 WITH_TF=1 WITH_TFLITE=0 WITH_ORT=0 GPU=1 CUDA=1 make -C opt build 
