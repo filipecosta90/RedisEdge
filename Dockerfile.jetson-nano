@@ -47,9 +47,9 @@ RUN ln -s /usr/include/aarch64-linux-gnu/cudnn_v8.h /usr/include/cudnn.h && \
    ln -s /usr/include/aarch64-linux-gnu/cudnn_ops_train_v8.h /usr/include/cudnn_ops_train.h && \
    ls -ll /usr/include/cudnn*
 
-ENV CUDNN_LIBRARY_PATH="/usr/include"
+ENV 
 # redisai.so + redisai_tensorflow.so + redisai_torch.so
 WORKDIR /RedisAI/build
-RUN cmake -DCUDA_USE_STATIC_CUDA_RUNTIME=ON -DDEVICE=gpu -DBUILD_TF=ON -DBUILD_TFLITE=OFF -DBUILD_TORCH=ON -DBUILD_ORT=OFF -DCMAKE_BUILD_TYPE=Release ../
+RUN cmake -DCUDNN_LIBRARY_PATH="/usr/include" -DCUDA_USE_STATIC_CUDA_RUNTIME=ON -DDEVICE=gpu -DBUILD_TF=ON -DBUILD_TFLITE=OFF -DBUILD_TORCH=ON -DBUILD_ORT=OFF -DCMAKE_BUILD_TYPE=Release ../
 RUN make
 RUN ls
