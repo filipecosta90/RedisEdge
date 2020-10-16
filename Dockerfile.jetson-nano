@@ -32,8 +32,9 @@ RUN mv torch libtorch
 # redisai.so + redisai_tensorflow.so + redisai_torch.so
 WORKDIR /RedisAI
 
+ENV CUDA_HOME="/usr/local/cuda"
 ENV PATH="/usr/local/cuda/bin:${PATH}"
 ENV LD_LIBRARY_PATH="/usr/local/cuda/lib64:${LD_LIBRARY_PATH}"
-RUN echo "$PATH" && echo "$LD_LIBRARY_PATH"
+RUN echo "PATH: $PATH\n" && echo "LD_LIBRARY_PATH: $LD_LIBRARY_PATH\n" && echo "CUDA_HOME: $CUDA_HOME\n"
 
 RUN pwd && WITH_PT=1 WITH_TF=1 WITH_TFLITE=0 WITH_ORT=0 GPU=1 make -C opt build -j4
