@@ -6,13 +6,13 @@ ARG MAKEFLAGS=-j8
 
 #----------------------------------------------------------------------------------------------
 ARG REDISAI_VERSION=v1.0.2
-ARG REDISTIMESERIES_VER=v1.4.5
+ARG REDISTIMESERIES_VERSION=v1.4.5
 
 RUN apt update && apt install -y git build-essential ninja-build cmake python3-pip python3-cffi unzip wget libopenblas-base
 
 RUN git clone https://github.com/RedisAI/RedisAI.git
 RUN cd RedisAI
-RUN git checkout ${REDISAI_VER}
+RUN git checkout ${REDISAI_VERSION}
 RUN WITH_PT=0 WITH_TF=0 WITH_TFLITE=0 WITH_ORT=0  GPU=1  bash get_deps.sh
 
 # libtensorflow 2.3 deps
@@ -39,7 +39,7 @@ RUN WITH_PT=1 WITH_TF=1 WITH_TFLITE=0 WITH_ORT=0 GPU=1 make -C opt build -j4
 RUN cd /root
 RUN git clone https://github.com/RedisTimeSeries/RedisTimeSeries.git
 RUN cd RedisTimeSeries 
-RUN git checkout ${REDISTIMESERIES_VER}
+RUN git checkout ${REDISTIMESERIES_VERSION}
 RUN git submodule init
 RUN git submodule update
 RUN make
