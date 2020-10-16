@@ -8,7 +8,7 @@ ARG MAKEFLAGS=-j8
 ARG REDISAI_VERSION=v1.0.2
 ARG REDISTIMESERIES_VER=v1.4.5
 
-RUN apt install -y git build-essential ninja-build cmake python3-pip python3-cffi unzip wget libopenblas-base
+RUN apt update && apt install -y git build-essential ninja-build cmake python3-pip python3-cffi unzip wget libopenblas-base
 
 RUN git clone https://github.com/RedisAI/RedisAI.git
 RUN cd RedisAI
