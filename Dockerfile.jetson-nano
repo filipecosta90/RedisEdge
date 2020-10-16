@@ -51,6 +51,6 @@ RUN ln -s /usr/include/aarch64-linux-gnu/cudnn_v8.h /usr/include/cudnn.h && \
 WORKDIR /RedisAI/build
 ENV CUDNN_LIBRARY_PATH="/usr/local/cuda/lib64/" 
 ENV CUDNN_INCLUDE_PATH="/usr/local/cuda/include/"
-RUN cmake -DCUDNN_LIBRARY_PATH="/usr/local/cuda/lib64/" CUDNN_INCLUDE_PATH="/usr/local/cuda/include/" -D -DCUDNN_INCLUDE_DIR="/usr/local/cuda/include/" -DCUDA_USE_STATIC_CUDA_RUNTIME=ON -DDEVICE=gpu -DBUILD_TF=ON -DBUILD_TFLITE=OFF -DBUILD_TORCH=ON -DBUILD_ORT=OFF -DCMAKE_BUILD_TYPE=Release ../
+RUN cmake -DCUDNN_LIBRARY_PATH="/usr/local/cuda/lib64/" -DCUDNN_INCLUDE_PATH="/usr/local/cuda/include/" -DCUDNN_INCLUDE_DIR="/usr/local/cuda/include/" -DCUDA_USE_STATIC_CUDA_RUNTIME=ON -DDEVICE=gpu -DBUILD_TF=ON -DBUILD_TFLITE=OFF -DBUILD_TORCH=ON -DBUILD_ORT=OFF -DCMAKE_BUILD_TYPE=Release ../
 RUN make
 RUN ls
