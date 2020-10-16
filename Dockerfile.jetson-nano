@@ -1,6 +1,6 @@
 # BUILD RedisAI edge nano
 # use NVIDIA Jetson embedded computing platform.
-FROM nvcr.io/nvidia/l4t-base:r32.4.3
+FROM nvcr.io/nvidia/l4t-ml:r32.4.3-py3
 ENV DEBIAN_FRONTEND=noninteractive
 ARG MAKEFLAGS=-j8
 ARG REDISAI_VERSION=v1.0.2
