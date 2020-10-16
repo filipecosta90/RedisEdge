@@ -35,6 +35,6 @@ RUN mv torch libtorch
 
 # redisai.so + redisai_tensorflow.so + redisai_torch.so
 WORKDIR /RedisAI/build
-RUN cmake -DDEVICE=gpu -DBUILD_TF=ON -DBUILD_TFLITE=OFF -DBUILD_TORCH=ON -DBUILD_ORT=OFF -DCMAKE_BUILD_TYPE=Release ../
+RUN cmake -DCUDA_USE_STATIC_CUDA_RUNTIME=ON -DDEVICE=gpu -DBUILD_TF=ON -DBUILD_TFLITE=OFF -DBUILD_TORCH=ON -DBUILD_ORT=OFF -DCMAKE_BUILD_TYPE=Release ../
 RUN make
 RUN ls
