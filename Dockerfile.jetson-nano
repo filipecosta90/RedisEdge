@@ -29,4 +29,4 @@ RUN mv torch libtorch
 
 # redisai.so + redisai_tensorflow.so + redisai_torch.so
 WORKDIR RedisAI
-RUN WITH_PT=1 WITH_TF=1 WITH_TFLITE=0 WITH_ORT=0 GPU=1 make -C opt build -j4
+RUN pwd && WITH_PT=1 WITH_TF=1 WITH_TFLITE=0 WITH_ORT=0 GPU=1 make -C opt build -j4
