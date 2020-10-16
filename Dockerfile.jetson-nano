@@ -4,10 +4,8 @@ FROM nvcr.io/nvidia/l4t-base:r32.4.3
 ARG MAKEFLAGS=-j8
 ARG REDISAI_VERSION=v1.0.2
 ARG LIBTENSORFLOW_URL=https://s3.amazonaws.com/benchmarks.redislabs/artifacts/redisai/jetson-nano/libtensorflow.tar.gz
-ARG PYTORCH_URL=https://nvidia.box.com/shared/static/9eptse6jyly1ggt9axbja2yrmj6pbarc.whl
-ARG PYTORCH_WHL=torch-1.6.0-cp36-cp36m-linux_aarch64.whl
 ENV DEBIAN_FRONTEND=noninteractive
-ARG MAKEFLAGS=-j6
+ARG MAKEFLAGS=-j8
 ENV CUDA_HOME="/usr/local/cuda"
 ENV PATH="/usr/local/cuda/bin:${PATH}"
 ENV LD_LIBRARY_PATH="/usr/local/cuda/lib64:${LD_LIBRARY_PATH}"
@@ -19,24 +17,13 @@ RUN apt update && apt install -y git build-essential ninja-build cmake python3-p
 RUN git clone https://github.com/RedisAI/RedisAI.git
 WORKDIR /RedisAI
 RUN git checkout ${REDISAI_VERSION}
-RUN WITH_PT=0 WITH_TF=0 WITH_TFLITE=0 WITH_ORT=0 GPU=1 bash get_deps.sh && \
-	mv deps/linux-arm64v8-gpu deps/linux-x64-gpu
+RUN WITH_PT=0 WITH_TF=0 WITH_TFLITE=0 WITH_ORT=0 GPU=1 bash get_deps.sh
 
 # libtensorflow 2.3 deps
-WORKDIR /RedisAI/deps/linux-x64-gpu/libtensorflow
+WORKDIR /RedisAI/deps/linux-arm64v8-gpu/libtensorflow
 RUN wget --quiet --show-progress --progress=bar:force:noscroll --no-check-certificate ${LIBTENSORFLOW_URL}
 RUN tar xf libtensorflow.tar.gz
 
-# libtorch 1.6 deps
-WORKDIR /RedisAI/deps/linux-x64-cpu
-RUN wget --quiet --show-progress --progress=bar:force:noscroll --no-check-certificate ${PYTORCH_URL} -O ${PYTORCH_WHL}
-RUN unzip ${PYTORCH_WHL}
-RUN mv torch libtorch
-
 WORKDIR /RedisAI/build
-# redisai.so + redisai_torch.so CPU
-RUN cmake -DDEVICE=cpu -DBUILD_TF=OFF -DBUILD_TFLITE=OFF -DBUILD_TORCH=ON -DBUILD_ORT=OFF -DCMAKE_BUILD_TYPE=Release ../
-RUN make
-# redisai.so + redisai_tensorflow.so + redisai_torch.so
-RUN cmake -DDEVICE=gpu -DBUILD_TF=ON -DBUILD_TFLITE=OFF -DBUILD_TORCH=OFF -DBUILD_ORT=OFF -DCMAKE_BUILD_TYPE=Release ../
-RUN make
+# redisai.so + redisai_tensorflow.so
+RUN WITH_PT=0 WITH_TF=1 WITH_TFLITE=0 WITH_ORT=0 GPU=1 make -C opt build
