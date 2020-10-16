@@ -6,14 +6,13 @@ ARG MAKEFLAGS=-j8
 
 #----------------------------------------------------------------------------------------------
 ARG REDISAI_VERSION=v1.0.2
-ARG REDISTIMESERIES_VERSION=v1.4.5
 
 RUN apt update && apt install -y git build-essential ninja-build cmake python3-pip python3-cffi unzip wget libopenblas-base
 
-RUN git clone https://github.com/RedisAI/RedisAI.git 
+RUN git clone https://github.com/RedisAI/RedisAI.git
 WORKDIR /RedisAI
 RUN git checkout v1.0.2
-RUN WITH_PT=0 WITH_TF=0 WITH_TFLITE=0 WITH_ORT=0 GPU=1 bash get_deps.sh && \
+RUN WITH_PT=0 WITH_TF=0 WITH_TFLITE=0 WITH_ORT=0 GPU=1 bash get_deps.sh &&
 	mv deps/linux-arm64v8-gpu deps/linux-x64-gpu
 
 # libtensorflow 2.3 deps
@@ -34,3 +33,4 @@ RUN mv torch libtorch
 WORKDIR /RedisAI/build
 RUN cmake -DDEVICE=gpu -DBUILD_TF=ON -DBUILD_TFLITE=OFF -DBUILD_TORCH=OFF -DBUILD_ORT=OFF -DCMAKE_BUILD_TYPE=Release ../
 RUN make
+RUN ls
