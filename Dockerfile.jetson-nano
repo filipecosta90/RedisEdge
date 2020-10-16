@@ -1,12 +1,16 @@
 # BUILD RedisAI edge nano
 # use NVIDIA Jetson embedded computing platform.
-FROM nvcr.io/nvidia/l4t-ml:r32.4.3-py3
-ENV DEBIAN_FRONTEND=noninteractive
+FROM l4t-pytorch:r32.4.2-pth1.5-py3
 ARG MAKEFLAGS=-j8
 ARG REDISAI_VERSION=v1.0.2
 ARG LIBTENSORFLOW_URL=https://s3.amazonaws.com/benchmarks.redislabs/artifacts/redisai/jetson-nano/libtensorflow.tar.gz
 ARG PYTORCH_URL=https://nvidia.box.com/shared/static/3ibazbiwtkl181n95n9em3wtrca7tdzp.whl
 ARG PYTORCH_WHL=torch-1.5.0-cp36-cp36m-linux_aarch64.whl
+ENV DEBIAN_FRONTEND=noninteractive
+ARG MAKEFLAGS=-j6
+ENV CUDA_HOME="/usr/local/cuda"
+ENV PATH="/usr/local/cuda/bin:${PATH}"
+ENV LD_LIBRARY_PATH="/usr/local/cuda/lib64:${LD_LIBRARY_PATH}"
 
 #----------------------------------------------------------------------------------------------
 
@@ -31,8 +35,6 @@ RUN mv torch libtorch
 
 # redisai.so + redisai_tensorflow.so + redisai_torch.so
 WORKDIR /RedisAI/build
-ENV PATH="/usr/local/cuda/bin:${PATH}"
-ENV LD_LIBRARY_PATH="/usr/local/cuda/lib64:${LD_LIBRARY_PATH}"
-RUN cmake -DCUDA_TOOLKIT_ROOT_DIR="/usr/local/cuda" -DDEVICE=gpu -DBUILD_TF=ON -DBUILD_TFLITE=OFF -DBUILD_TORCH=ON -DBUILD_ORT=OFF -DCMAKE_BUILD_TYPE=Release ../
+RUN cmake -DDEVICE=gpu -DBUILD_TF=ON -DBUILD_TFLITE=OFF -DBUILD_TORCH=ON -DBUILD_ORT=OFF -DCMAKE_BUILD_TYPE=Release ../
 RUN make
 RUN ls
